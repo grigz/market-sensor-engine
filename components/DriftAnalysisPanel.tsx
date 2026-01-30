@@ -13,24 +13,19 @@ export default function DriftAnalysisPanel() {
 
   async function fetchAnalyses() {
     try {
-      const competitorsRes = await fetch('/api/competitors');
-      const competitors = await competitorsRes.json();
+      const res = await fetch('/api/drift');
+      const data = await res.json();
 
-      const allAnalyses: DriftAnalysis[] = [];
-
-      for (const comp of competitors) {
-        const res = await fetch(`/api/scan?url=${encodeURIComponent(comp.url)}`);
-        if (res.ok) {
-          const data = await res.json();
-          if (data.driftAnalysis) {
-            allAnalyses.push(data.driftAnalysis);
-          }
-        }
+      // Ensure data is an array before setting state
+      if (Array.isArray(data)) {
+        setAnalyses(data);
+      } else {
+        console.error('API returned non-array data:', data);
+        setAnalyses([]);
       }
-
-      setAnalyses(allAnalyses);
     } catch (error) {
       console.error('Failed to fetch drift analyses:', error);
+      setAnalyses([]);
     } finally {
       setLoading(false);
     }

@@ -25,9 +25,17 @@ export default function ProofVaultPanel() {
     try {
       const res = await fetch('/api/proof');
       const data = await res.json();
-      setProofs(data);
+
+      // Ensure data is an array before setting state
+      if (Array.isArray(data)) {
+        setProofs(data);
+      } else {
+        console.error('API returned non-array data:', data);
+        setProofs([]);
+      }
     } catch (error) {
       console.error('Failed to fetch proofs:', error);
+      setProofs([]);
     } finally {
       setLoading(false);
     }

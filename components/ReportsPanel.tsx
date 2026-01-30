@@ -18,9 +18,17 @@ export default function ReportsPanel() {
     try {
       const res = await fetch('/api/reports');
       const data = await res.json();
-      setReports(data);
+
+      // Ensure data is an array before setting state
+      if (Array.isArray(data)) {
+        setReports(data);
+      } else {
+        console.error('API returned non-array data:', data);
+        setReports([]);
+      }
     } catch (error) {
       console.error('Failed to fetch reports:', error);
+      setReports([]);
     } finally {
       setLoading(false);
     }

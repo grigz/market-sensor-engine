@@ -19,9 +19,16 @@ export default function CompetitorsPanel() {
     try {
       const res = await fetch('/api/competitors');
       const data = await res.json();
-      setCompetitors(data);
+      // Ensure data is an array before setting state
+      if (Array.isArray(data)) {
+        setCompetitors(data);
+      } else {
+        console.error('API returned non-array data:', data);
+        setCompetitors([]);
+      }
     } catch (error) {
       console.error('Failed to fetch competitors:', error);
+      setCompetitors([]);
     } finally {
       setLoading(false);
     }
