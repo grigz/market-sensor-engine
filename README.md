@@ -6,13 +6,17 @@ A **Predictive CI Loop** system built on Ray Beharry's "Systems, Not Slides" fra
 
 Transform your competitive intelligence from static monitoring to real-time momentum sensing.
 
+> **📌 Simple Mode**: This version uses basic text comparison without AI. No API costs, no LLM required.
+> Want AI-powered insights? See [Upgrading to AI Mode](#upgrading-to-ai-mode) below.
+
 ## Features
 
 ### Module A: Language Drift Analyzer (Sensing)
 - **90-Day Baseline**: Maintains historical snapshots of competitor messaging
 - **Auto-Diff Engine**: Compares current vs. baseline to detect changes
-- **Implication Logic**: LLM-powered analysis generates "So What?" insights
+- **Text Analysis**: Basic keyword extraction and change detection (no AI required)
 - **Drift Scoring**: 0-100 scale for measuring magnitude of competitive shifts
+- **Manual Review**: Insights flagged for human analysis
 
 ### Module B: Proof Vault (Governance)
 - **ESOT (Enablement Source of Truth)**: Centralized evidence repository
@@ -32,7 +36,7 @@ Transform your competitive intelligence from static monitoring to real-time mome
 - **Hosting**: Vercel
 - **Database**: Upstash Redis (replaces deprecated Vercel KV)
 - **Email**: Resend API
-- **LLM**: Anthropic Claude via AI SDK
+- **Analysis**: Simple text comparison (no AI/LLM required)
 - **Styling**: Tailwind CSS
 
 ## Getting Started
@@ -43,7 +47,6 @@ Transform your competitive intelligence from static monitoring to real-time mome
 - Vercel account
 - Upstash account (or use Vercel Integrations)
 - Resend account
-- Anthropic API key
 
 ### 2. Installation
 
@@ -272,10 +275,65 @@ market-sensor-engine/
 - Check cron logs in Vercel Dashboard → Deployments → Logs
 - Ensure CRON_SECRET environment variable is set
 
-### LLM Analysis Failing
-- Verify ANTHROPIC_API_KEY is correct
-- Check API quota/usage at console.anthropic.com
-- Review error logs in Vercel deployment
+## Upgrading to AI Mode
+
+Currently running in **Simple Mode** (text comparison only). Want AI-powered strategic insights?
+
+### What You Get With AI
+
+**Current (Simple Mode):**
+- ✅ Detects text changes
+- ✅ Extracts new keywords
+- ✅ Basic drift scoring
+- ❌ Manual "So What?" analysis required
+
+**With AI Mode:**
+- ✅ All of the above, plus:
+- ✅ AI-generated strategic implications
+- ✅ Automated "So What?" insights
+- ✅ Intelligent categorization (Trust, Speed, Control, etc.)
+- ✅ Context-aware recommendations
+- **Cost**: ~$0.03 per scan (~$1.50/year for weekly scans)
+
+### How to Upgrade
+
+1. **Get Anthropic API Key**
+   - Sign up at https://console.anthropic.com/
+   - Add $10 credits (lasts ~300 scans)
+
+2. **Install AI Dependencies**
+   ```bash
+   npm install @ai-sdk/anthropic ai
+   ```
+
+3. **Restore AI Analyzer**
+   ```bash
+   mv lib/analyzer-ai.ts.backup lib/analyzer.ts
+   mv lib/analyzer-simple.ts lib/analyzer-simple.ts.backup
+   ```
+
+4. **Update API Routes**
+   Replace all imports:
+   ```typescript
+   // Change from:
+   import { analyzeDrift } from '@/lib/analyzer-simple';
+
+   // To:
+   import { analyzeDrift } from '@/lib/analyzer';
+   ```
+
+5. **Add Environment Variable**
+   ```bash
+   # In Vercel Dashboard or .env.local
+   ANTHROPIC_API_KEY=sk-ant-your_key_here
+   ```
+
+6. **Deploy**
+   ```bash
+   git add . && git commit -m "Upgrade to AI mode" && git push
+   ```
+
+The AI analyzer backup is already in your codebase at `lib/analyzer-ai.ts.backup`.
 
 ## License
 

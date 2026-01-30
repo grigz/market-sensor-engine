@@ -2,6 +2,8 @@
 
 Get your Market Sensor Engine running in 5 minutes.
 
+> **Simple Mode**: No AI required. Uses basic text comparison.
+
 ## Step 1: Set Up Environment Variables
 
 Create a `.env.local` file:
@@ -25,11 +27,7 @@ You need API keys from these services:
    - Create API key
    - For testing, use `onboarding@resend.dev` as FROM email
 
-3. **Anthropic** (AI Analysis)
-   - Get API key at https://console.anthropic.com/
-   - Make sure you have credits
-
-4. **Generate Cron Secret**
+3. **Generate Cron Secret**
    ```bash
    openssl rand -base64 32
    ```
@@ -44,8 +42,6 @@ RESEND_API_KEY=re_your_key_here
 RESEND_FROM_EMAIL=Market Sensor <onboarding@resend.dev>
 
 MARKET_PULSE_RECIPIENTS=youremail@example.com
-
-ANTHROPIC_API_KEY=sk-ant-your_key_here
 
 CRON_SECRET=your_random_secret_here
 ```
