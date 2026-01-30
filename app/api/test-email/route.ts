@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    const result = await getResend().emails.send({
+    const { data, error } = await getResend().emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'Market Sensor <onboarding@resend.dev>',
       to: [to],
       subject: '✅ Market Sensor Engine - Email Test',
@@ -75,10 +75,20 @@ export async function GET(request: NextRequest) {
       `,
     });
 
+    if (error) {
+      return NextResponse.json(
+        {
+          error: 'Failed to send test email',
+          details: error.message,
+        },
+        { status: 500 }
+      );
+    }
+
     return NextResponse.json({
       success: true,
       message: 'Test email sent successfully!',
-      emailId: result.id,
+      emailId: data?.id,
       to,
     });
   } catch (error) {
