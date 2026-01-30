@@ -5,12 +5,27 @@ import type { CompetitorConfig } from '@/lib/types';
 // GET /api/competitors - Get all competitor configurations
 export async function GET() {
   try {
+    // Check if Redis env vars are set
+    if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN) {
+      console.error('Redis environment variables not set');
+      return NextResponse.json(
+        {
+          error: 'Database not configured. Please set UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN environment variables.',
+          details: 'Check Vercel Dashboard → Settings → Environment Variables'
+        },
+        { status: 500 }
+      );
+    }
+
     const competitors = await getCompetitorConfigs();
     return NextResponse.json(competitors);
   } catch (error) {
     console.error('Error fetching competitors:', error);
     return NextResponse.json(
-      { error: 'Failed to fetch competitors' },
+      {
+        error: 'Failed to fetch competitors',
+        details: error instanceof Error ? error.message : String(error)
+      },
       { status: 500 }
     );
   }
