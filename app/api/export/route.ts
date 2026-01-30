@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAllDriftAnalyses, getAllProofRecords } from '@/lib/db';
-import { generateActionItems } from '@/lib/analyzer';
+import { generateActionItems } from '@/lib/analyzer-simple';
 
 // GET /api/export - Export all data as CSV
 export async function GET() {

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { scrapeCompetitorPage } from '@/lib/scraper';
-import { analyzeDrift } from '@/lib/analyzer';
+import { analyzeDrift } from '@/lib/analyzer-simple';
 import {
   getCompetitorConfigs,
   saveSnapshot,

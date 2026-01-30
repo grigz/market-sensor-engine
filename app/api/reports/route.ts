@@ -5,7 +5,7 @@ import {
   saveMarketPulseReport,
   getAllDriftAnalyses,
 } from '@/lib/db';
-import { generateActionItems, generateMarketPulseEmail } from '@/lib/analyzer';
+import { generateActionItems, generateMarketPulseEmail } from '@/lib/analyzer-simple';
 import { Resend } from 'resend';
 import type { MarketPulseReport } from '@/lib/types';
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { scrapeCompetitorPage } from '@/lib/scraper';
-import { analyzeDrift, generateActionItems, generateMarketPulseEmail } from '@/lib/analyzer';
+import { analyzeDrift, generateActionItems, generateMarketPulseEmail } from '@/lib/analyzer-simple';
 import {
   getCompetitorConfigs,
   saveSnapshot,
